@@ -70,8 +70,8 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# Streamlit
-.streamlit/
+# Streamlit cache files (but allow config)
+.streamlit/secrets.toml
 
 # Model Cache
 .cache/
