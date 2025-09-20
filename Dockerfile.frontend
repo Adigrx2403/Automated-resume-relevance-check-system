@@ -1,0 +1,31 @@
+# Use Python 3.11 slim image
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file
+COPY requirements.txt .
+
+# Install Python dependencies (only Streamlit and related packages)
+RUN pip install streamlit==1.28.2 streamlit-option-menu==0.3.6 \
+    requests==2.31.0 pandas==2.1.4 plotly==5.17.0
+
+# Copy frontend code
+COPY frontend/ ./frontend/
+
+# Expose port
+EXPOSE 8501
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Run Streamlit
+CMD ["streamlit", "run", "frontend/main.py", "--server.port=8501", "--server.address=0.0.0.0"]
